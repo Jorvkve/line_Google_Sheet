@@ -1,9 +1,9 @@
 import requests
 
 # ทำให้ URL ผิด
-#WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbw7cPT5xMOZXDaO-05Rtefka8CIVpiF03x7-T7vsXcbZi0Ypd9qjlABA82Rce3wMZOB/wrong_path' # เปลี่ยน /exec เป็นอย่างอื่น
+WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbw7cPT5xMOZXDaO-05Rtefka8CIVpiF03x7-T7vsXcbZi0Ypd9qjlABA82Rce3wMZOB/exec' # เปลี่ยน /exec เป็นอย่างอื่น
 # หรือ
-WEB_APP_URL = 'http://wrong.url.com/exec' # เปลี่ยนโปรโตคอลหรือโดเมน
+# WEB_APP_URL = 'http://wrong.url.com/exec' # เปลี่ยนโปรโตคอลหรือโดเมน
 
 SECRET_KEY = 'sheetLine2684'
 
