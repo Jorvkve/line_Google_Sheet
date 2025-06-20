@@ -52,8 +52,8 @@ function doPost(e) {
 function sendReportByDate(dateString, lineToken) {
   // เปิด Google Sheet ด้วย ID ที่กำหนด
   const spreadsheet = SpreadsheetApp.openById(SPREADSHEET_ID);
-  // เลือกชีทแรกใน Google Sheet
-  const sheet = spreadsheet.getSheets()[0];
+  // เลือกชีท โดย เลือกชื่อชีท
+  const sheet = spreadsheet.getSheetByName('06/2025'); 
 
   // headerOffset: กำหนดจำนวนแถวที่เป็น Header (หัวตาราง) ที่ต้องการข้ามไป
   // ในที่นี้คือ 1 แถวแรก

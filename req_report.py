@@ -13,6 +13,6 @@ params = {
 response = requests.post(WEB_APP_URL, data=params)
 
 if response.status_code == 200:
-    print("เรียกใช้ Apps Script สำเร็จ:", response.text)
+    print("เรียกใช้ Apps Script สำเร็จ:", response.text)    
 else:
     print("เกิดข้อผิดพลาด:", response.status_code, response.text)
