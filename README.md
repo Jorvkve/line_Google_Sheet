@@ -133,3 +133,19 @@
 	- **คลิก Next**
 6. **Summary (สรุป) :** ตรวจสอบรายละเอียดทั้งหมดและคลิก Finish
 ตอนนี้  Task Scheduler จะรัน Python Script ทุกวันตามเวลาที่กำหนด ซึ่ง Python Script จะเรียก Google Apps Script Web App เพื่อดึงข้อมูลและส่งรายงานไปยัง Line
+
+## ⚠️ การแก้ไขปัญหาเบื้องต้น
+-   **Python Script ไม่รัน หรือรันแล้วมีข้อผิดพลาด**:
+    -   ตรวจสอบพาธของ Python Interpreter และ Python Script ใน Task Scheduler ว่าถูกต้องหรือไม่
+    -   ลองรัน Python Script ด้วยตัวเองใน Command Prompt/Terminal เพื่อดูข้อความ Error
+    -   ตรวจสอบว่า `WEB_APP_URL` และ `SECRET_KEY` ใน Python Script ถูกต้องและตรงกับ Google Apps Script
+-   **รายงานไม่ถูกส่งไป LINE**:
+    -   ตรวจสอบ Log ใน Google Apps Script (ไปที่เมนู **Executions (การดำเนินการ)** ใน Apps Script Editor) เพื่อดูว่ามี Error อะไรเกิดขึ้น
+    -   ตรวจสอบว่า `LINE_TOKEN` และ `LINE_RECIPIENT_ID` ใน Script Properties และโค้ด Apps Script ถูกต้อง
+    -   ตรวจสอบว่า Web App ได้รับการ Deploy ถูกต้องและมีสิทธิ์เข้าถึง `Anyone`
+-   **ข้อมูลใน Google Sheet ไม่ถูกทำเครื่องหมายว่า "ส่งแล้ว"**:
+    -   ตรวจสอบว่าคอลัมน์ K (Index 10) ถูกต้อง
+    -   ตรวจสอบว่าการส่ง LINE สำเร็จ (ดูจาก Log ของ Apps Script ถ้า `sendLineMessage` คืนค่า `true`)
+-   **รายงานมีแต่หัวข้อ หรือไม่มีข้อมูล**:
+    -   ตรวจสอบว่าวันที่ใน Google Sheet ของคุณมีรูปแบบที่สอดคล้องกับ `'%d/%m/%Y'` ที่ใช้ใน Python Script และ Apps Script
+    -   ตรวจสอบว่ามีข้อมูลสำหรับวันที่ที่ต้องการรายงานจริง ๆ ใน Google Sheet
