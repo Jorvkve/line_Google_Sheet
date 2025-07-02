@@ -1,5 +1,5 @@
-const SPREADSHEET_ID = '15A7h62tRxTrbEHzK6UOam3fVn_H7HBxAcGXT4I2ElXM'; // 
-const LINE_RECIPIENT_ID = 'U6d7c919f17a1da64a3c50669201f3cc9'; // 
+const SPREADSHEET_ID = '15A7h62tRxTrbEHzK6UOam3fVn_H7HBxAcGXT4I2ElXM'; // sheetID
+const LINE_RECIPIENT_ID = 'U6d7c919f17a1da64a3c50669201f3cc9'; // userID
 
 
 // --- ฟังก์ชันหลักสำหรับ Web App (doPost) ---
@@ -8,7 +8,7 @@ function doPost(e) {
   const LINE_TOKEN = PropertiesService.getScriptProperties().getProperty('LINE_TOKEN');   
 
   // ตรวจสอบว่า LINE_TOKEN และ SECRET_KEY ได้ถูกตั้งค่าใน Script Properties หรือไม่
-  // หากไม่ได้ตั้งค่า จะขึ้นว่าเกิด Error เพราะไม่ได้ Config LINE_TOKEN , SECRET_KEY
+  // หากไม่ได้ตั้งค่า จะคืนค่าข้อผิดพลาดกลับไปทันที
   if (!LINE_TOKEN) {
     Logger.log('ERROR: LINE_TOKEN is not set in Script Properties.');
     return ContentService.createTextOutput("Error: LINE_TOKEN not configured.").setMimeType(ContentService.MimeType.TEXT);
@@ -20,7 +20,7 @@ function doPost(e) {
 
   // ตรวจสอบความถูกต้องของ SECRET_KEY ที่ส่งมาในคำขอ POST
   // e.parameter คือออบเจกต์ที่เก็บพารามิเตอร์ที่ส่งมากับคำขอ POST
-  // ถ้า 'key' ไม่ตรงกับ SECRET_KEY ที่ตั้งไว้ จะขึ้น Error ว่า Key ไม่ตรงกัน
+  // ถ้า 'key' ไม่ตรงกับ SECRET_KEY ที่ตั้งไว้ จะคืนค่าข้อผิดพลาด
   if (!e.parameter || e.parameter.key !== SECRET_KEY) {
     Logger.log('ERROR: Invalid or missing secret key.');
     return ContentService.createTextOutput("Error: Invalid or missing secret key.").setMimeType(ContentService.MimeType.TEXT);
@@ -28,7 +28,7 @@ function doPost(e) {
 
   // ดึงค่า 'date' (วันที่ที่ต้องการส่งรายงาน) จากพารามิเตอร์ในคำขอ POST
   const dateString = e.parameter.date;
-  // หากไม่มีพารามิเตอร์ 'date' ส่งมา จะขึ้น Error ไม่พบ date ที่ต้องการจะส่ง
+  // หากไม่มีพารามิเตอร์ 'date' ส่งมา จะคืนค่าข้อผิดพลาด
   if (!dateString) {
     Logger.log('ERROR: Missing "date" parameter in the request.');
     return ContentService.createTextOutput("Error: Missing 'date' parameter.").setMimeType(ContentService.MimeType.TEXT);
