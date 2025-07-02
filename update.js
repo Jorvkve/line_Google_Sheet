@@ -27,7 +27,20 @@ function doPost(e) {
 }
 
 function sendReportByDate(dateString, telegramToken) {
-  const sheet = SpreadsheetApp.openById(SPREADSHEET_ID).getSheetByName('06/2025'); //เปลี่ยนชื่อชีทตรงนี้
+  // แปลง dateString เช่น "2/7/2568" ให้ได้ชื่อชีท "07/2568"
+  const parts = dateString.split('/');
+  if(parts.length < 3) {
+    throw new Error("Invalid date format, expected d/M/yyyy");
+  }
+  const month = parts[1].padStart(2, '0');
+  const year = parts[2];
+  const sheetName = `${month}/${year}`;
+
+  const sheet = SpreadsheetApp.openById(SPREADSHEET_ID).getSheetByName(sheetName);
+  if (!sheet) {
+    throw new Error(`Sheet named "${sheetName}" not found`);
+  }
+
   const data = sheet.getDataRange().getValues();
   const filteredData = [];
 
@@ -83,22 +96,13 @@ function sendReportByDate(dateString, telegramToken) {
     message += `📝 สาเหตุ: ${r[8] || '-'}\n`;
     message += `👨‍🔧 ผลัด: ${r[9] || '-'}\n`;
 
-    // ส่งข้อความรายแถว
     sendTelegramMessage(TELEGRAM_CHAT_ID, message, telegramToken);
 
-    // ทำเครื่องหมายว่า "ส่งแล้ว"
+    // ทำเครื่องหมาย "ส่งแล้ว" แถวที่ส่ง
     sheet.getRange(item.rowIndex, 11).setValue('ส่งแล้ว');
 
-    // หน่วงเวลาเล็กน้อยเพื่อให้ API Telegram ไม่ถูก block
-    Utilities.sleep(1000);
+    Utilities.sleep(1000); // หน่วงเวลาป้องกัน Telegram API block
   });
-}
-
-function formatCell(value) {
-  if (value instanceof Date) {
-    return Utilities.formatDate(value, Session.getScriptTimeZone(), 'dd/MM/yyyy');
-  }
-  return value || '-';
 }
 
 function sendTelegramMessage(chatId, messageText, telegramToken) {
@@ -124,23 +128,3 @@ function sendTelegramMessage(chatId, messageText, telegramToken) {
     return false;
   }
 }
-
-function splitAndSendTelegram(chatId, longText, token) {
-  const max = 4096;
-  for (let i = 0; i < longText.length; i += max) {
-    const chunk = longText.substring(i, i + max);
-    Utilities.sleep(1000);
-    sendTelegramMessage(chatId, chunk, token);
-  }
-}
-/**
-// ✅ เรียกใช้ครั้งเดียวเพื่อตั้งค่า token และ key
-function setTelegramToken() {
-  const token = '7200049046:AAEk0c-9yKGrdY9NWiq82MGbwsMQhmJTG0M'; // 🔁 ใส่ token ของคุณ
-  PropertiesService.getScriptProperties().setProperty('TELEGRAM_TOKEN', token);
-}
-
-function setSecretKey() {
-  const key = 'SentSentReportTelegramReport01';
-  PropertiesService.getScriptProperties().setProperty('SECRET_KEY', key);
-}*/
