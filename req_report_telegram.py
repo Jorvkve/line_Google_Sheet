@@ -4,7 +4,7 @@ from datetime import datetime, timedelta
 # ====== CONFIG SECTION ======
 WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbzzC_wcG9TXcVd1gbfWAmLrWrJ3ydKEzVaBC-zvQdAYO8AbdPXyUm0YxSIY3jwPxP_M/exec'
 SECRET_KEY = 'SentReportTelegram'
-DATE_TO_SEND = (datetime.now() - timedelta(days=12)).strftime('%#d/%#m/%Y') # For Linux/macOS
+DATE_TO_SEND = (datetime.now() - timedelta(days=15)).strftime('%#d/%#m/%Y') # For Linux/macOS
 
 # Telegram bot config
 TELEGRAM_TOKEN = '7200049046:AAEk0c-9yKGrdY9NWiq82MGbwsMQhmJTG0M'

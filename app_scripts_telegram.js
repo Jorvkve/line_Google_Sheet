@@ -74,7 +74,7 @@ function sendReportByDate(dateString, telegramToken) {
         }
     }
     fullMessage += `--- เหตุการณ์ที่ ${index + 1} ---\n`;
-    fullMessage += `📅 วันที่: ${formattedDate}\n`;
+    fullMessage += `🔹 วันที่: ${formattedDate}\n`;
     fullMessage += `⏱️ Downtime: ${r[1] || '-'}\n`;
     fullMessage += `🌐 Network: ${r[2] || '-'}\n`;
     fullMessage += `🔗 Link: ${r[3] || '-'}\n`;
@@ -131,7 +131,7 @@ function splitAndSendTelegram(chatId, longText, token) {
     sendTelegramMessage(chatId, chunk, token);
   }
 }
-
+/**
 // ✅ เรียกใช้ครั้งเดียวเพื่อตั้งค่า token และ key
 function setTelegramToken() {
   const token = '7200049046:AAEk0c-9yKGrdY9NWiq82MGbwsMQhmJTG0M'; // 🔁 ใส่ token ของคุณ
@@ -141,4 +141,4 @@ function setTelegramToken() {
 function setSecretKey() {
   const key = 'SentSentReportTelegramReport01';
   PropertiesService.getScriptProperties().setProperty('SECRET_KEY', key);
-}
+}*/
