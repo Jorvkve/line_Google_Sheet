@@ -1,8 +1,8 @@
 import requests
 from datetime import datetime, timedelta
 
-WEB_APP_URL = 'https://script.google.com/macros/s/AKfycby7dJRANIxK7w6hzoGfQCw7q2QwyxC53U4D-ATbt8gOVbFNx_cOERJ0nF6JAt3fk31P/exec'  # ใส่ Web App URL
-SECRET_KEY = 'SentReportTelegram' #'SentReport01' # ใส่ secret key ที่คุณตั้งใน Google Apps Script
+WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbyZSRHIl1IJZsPqFicJLmFAiRBvq-hzYxoLmfTteLU2ej2KzE5zkxeAVy83ZDaPDTxU/exec'  # ใส่ Web App URL
+SECRET_KEY = 'SentReport01' #'SentReportTelegram' #'SentReport01' # ใส่ secret key ที่คุณตั้งใน Google Apps Script
 DATE_TO_SEND = (datetime.now() - timedelta(days=14)).strftime('%#d/%#m/%Y')  # ใช้วันที่ของเมื่อวาน 0 = ปัจจุบัน เป็น + คือเพิ่มวันในอนาคต
 
 params = {
