@@ -4,7 +4,7 @@ from datetime import datetime, timedelta
 # ====== CONFIG SECTION ======
 WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbxMKlSdTXUffOoIpz9Mf0FGd6genlAEh-_6m459t7RFwInFgsEH_9OojRLjWbHf3Ki6/exec'
 SECRET_KEY = 'SentReportTelegram'
-DATE_TO_SEND = (datetime.now() - timedelta(days=1)).strftime('%#d/%#m/%Y') # For Window
+DATE_TO_SEND = (datetime.now() - timedelta(days=16)).strftime('%#d/%#m/%Y') # For Window
 
 # Telegram bot config
 TELEGRAM_TOKEN = '7200049046:AAEk0c-9yKGrdY9NWiq82MGbwsMQhmJTG0M'

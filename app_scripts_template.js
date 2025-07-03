@@ -1,5 +1,5 @@
 const SPREADSHEET_ID = 'YOUR SHEET_ID';
-const TELEGRAM_CHAT_ID = 'YOUR CHAT_ID'; // 🔁 แก้เป็น chat_id ของคุณ
+const TELEGRAM_CHAT_ID = 'YOUR CHAT_ID'; // 🔁 แก้เป็น chat_id
 
 function doPost(e) {
   const SECRET_KEY = PropertiesService.getScriptProperties().getProperty('SECRET_KEY');
