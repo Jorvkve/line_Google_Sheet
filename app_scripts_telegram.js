@@ -27,15 +27,26 @@ function doPost(e) {
 }
 
 function sendReportByDate(dateString, telegramToken) {
-  const sheet = SpreadsheetApp.openById(SPREADSHEET_ID).getSheetByName('06/2025'); //เปลี่ยนชื่อชีทตรงนี้
+  const parts = dateString.split('/');
+  const month = parts[1].padStart(2, '0');
+  const year = parts[2];
+  const sheetName = `${month}/${year}`;
+
+  const sheet = SpreadsheetApp.openById(SPREADSHEET_ID).getSheetByName(sheetName);
+  if (!sheet) {
+    throw new Error(`Sheet named "${sheetName}" not found`);
+  }
+
   const data = sheet.getDataRange().getValues();
   const filteredData = [];
 
+  // กรองข้อมูลตามวันที่และสถานะ
   for (let i = 1; i < data.length; i++) {
     const row = data[i];
     const dateCell = row[0];
     const status = String(row[10] || '').trim().toLowerCase();
 
+    // ถ้าแถวมีสถานะ "ส่งแล้ว" ให้ข้าม
     if (status === 'ส่งแล้ว') continue;
 
     let formattedDate;
@@ -46,17 +57,20 @@ function sendReportByDate(dateString, telegramToken) {
       formattedDate = !isNaN(parsed.getTime()) ? Utilities.formatDate(parsed, Session.getScriptTimeZone(), 'd/M/yyyy') : String(dateCell).trim();
     }
 
+    // ตรวจสอบวันที่ที่กรองแล้ว
     if (formattedDate === dateString) {
       filteredData.push({ rowData: row, rowIndex: i + 1 });
     }
   }
 
+  // หากไม่พบข้อมูลหรือข้อมูลถูกส่งไปแล้ว
   if (filteredData.length === 0) {
     const noDataMsg = `📝 รายงานประจำวันที่ ${dateString}\nไม่มีข้อมูล หรือข้อมูลถูกส่งแล้วทั้งหมด`;
     sendTelegramMessage(TELEGRAM_CHAT_ID, noDataMsg, telegramToken);
     return;
   }
 
+  // ส่งข้อความเหตุการณ์ไป Telegram
   filteredData.forEach((item, index) => {
     const r = item.rowData;
 
@@ -83,14 +97,12 @@ function sendReportByDate(dateString, telegramToken) {
     message += `📝 สาเหตุ: ${r[8] || '-'}\n`;
     message += `👨‍🔧 ผลัด: ${r[9] || '-'}\n`;
 
-    // ส่งข้อความรายแถว
     sendTelegramMessage(TELEGRAM_CHAT_ID, message, telegramToken);
 
-    // ทำเครื่องหมายว่า "ส่งแล้ว"
+    // ทำเครื่องหมาย "ส่งแล้ว" แถวที่ส่ง
     sheet.getRange(item.rowIndex, 11).setValue('ส่งแล้ว');
 
-    // หน่วงเวลาเล็กน้อยเพื่อให้ API Telegram ไม่ถูก block
-    Utilities.sleep(1000);
+    Utilities.sleep(1000); // หน่วงเวลาป้องกัน Telegram API block
   });
 }
 
@@ -133,7 +145,7 @@ function splitAndSendTelegram(chatId, longText, token) {
     sendTelegramMessage(chatId, chunk, token);
   }
 }
-/**
+
 // ✅ เรียกใช้ครั้งเดียวเพื่อตั้งค่า token และ key
 function setTelegramToken() {
   const token = '7200049046:AAEk0c-9yKGrdY9NWiq82MGbwsMQhmJTG0M'; // 🔁 ใส่ token ของคุณ
@@ -143,4 +155,4 @@ function setTelegramToken() {
 function setSecretKey() {
   const key = 'SentSentReportTelegramReport01';
   PropertiesService.getScriptProperties().setProperty('SECRET_KEY', key);
-}*/
+}

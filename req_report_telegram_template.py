@@ -5,6 +5,7 @@ from datetime import datetime, timedelta
 WEB_APP_URL = 'Your DEPLOY APP_SCRIPTS'
 SECRET_KEY = 'Your SECRET_KEY' #ต้องตรงกับใน app script
 DATE_TO_SEND = (datetime.now() - timedelta(days=1)).strftime('%#d/%#m/%Y') # For Window เมื่อวาน
+#DATE_TO_SEND = '8/8/2025' # Manual
 
 # Telegram bot config
 TELEGRAM_TOKEN = 'Your TELEGRAM_TOKEN'
